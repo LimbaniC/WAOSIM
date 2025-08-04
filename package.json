@@ -1,0 +1,30 @@
+{
+  "name": "waosim",
+  "version": "1.0.0",
+  "description": "��W\u0000e\u0000b\u0000 \u0000A\u0000s\u0000s\u0000e\u0000m\u0000b\u0000l\u0000y\u0000 \u0000O\u0000p\u0000e\u0000r\u0000a\u0000t\u0000i\u0000n\u0000g\u0000 \u0000S\u0000y\u0000s\u0000t\u0000e\u0000m\u0000 \u0000S\u0000i\u0000m\u0000u\u0000l\u0000a\u0000t\u0000o\u0000r\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests",
+    "asbuild:debug": "asc assembly/index.ts --target debug",
+    "asbuild:release": "asc assembly/index.ts --target release",
+    "asbuild": "npm run asbuild:debug && npm run asbuild:release",
+    "start": "npx serve ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@assemblyscript/loader": "^0.28.3",
+    "assemblyscript": "^0.28.3"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./build/release.js",
+      "types": "./build/release.d.ts"
+    }
+  },
+  "devDependencies": {
+    "assemblyscript": "^0.28.3"
+  }
+}
