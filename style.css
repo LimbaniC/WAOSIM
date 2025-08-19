@@ -1,0 +1,87 @@
+/* Global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: monospace;
+  position: relative;
+}
+
+body {
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  grid-template-columns: 2fr 1fr;
+  grid-template-areas:
+    "input terminal"
+    "output output";
+  height: 100vh;
+  background-color: #1e1e1e; /* VS Code dark theme vibe */
+  color: #ffffff;
+}
+
+/* Code input panel */
+#code-input {
+  grid-area: input;
+  border: 1px solid #444;
+  padding: 10px;
+  background-color: #252526;
+  overflow-y: auto;
+}
+
+/* Code output panel (now at bottom full width) */
+#code-output {
+  grid-area: output;
+  border-top: 1px solid #444;
+  padding: 10px;
+  background-color: #1e1e1e;
+  overflow-y: auto;
+}
+
+/* Terminal simulation (now top-right) */
+#terminal-sim {
+  grid-area: terminal;
+  border-left: 1px solid #444;
+  padding: 10px;
+  background-color: black;
+  color: #00ff00; /* green text for terminal */
+  overflow-y: auto;
+}
+
+/* Headings inside panels */
+#code-input p,
+#code-output p,
+#terminal-sim p {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #d4d4d4;
+}
+
+/* Make the label and button inline */
+#code-input p {
+  display: inline-block;
+  margin-right: 10px;
+  font-weight: bold;
+  color: #d4d4d4;
+}
+
+#run-code-button {
+  display: inline-block;
+  padding: 6px 14px;
+  background-color: #28a745; /* vibrant green */
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+#run-code-button:hover {
+  background-color: #34d058; /* lighter green on hover */
+}
+
+#run-code-button:active {
+  background-color: #22863a; /* darker green when pressed */
+}
+

@@ -2,9 +2,35 @@
 <html lang="en">
 <head>
 <script type="module">
-import { add } from "./build/release.js";
-document.body.innerText = add(1, 2);
+    import { add } from "./build/release.js";
+
+    document.getElementById("code-output").innerText = "Output: " + add(1, 2);
+    // document.body.innerText = add(1, 2);
 </script>
+
+<link rel="stylesheet" type="text/css" href="./style.css">
+
 </head>
-<body></body>
+
+<body>
+    <div id="code-input">
+        <p>Input your code below:</p>
+        <input type="button" id="run-code-button" value="Run Code">
+
+        <div id="editor" contenteditable="true" spellcheck="false">
+            <p>function add(a, b) { return a + b; }</p>
+        </div>
+
+    </div>
+
+    <div id="code-output">
+        <p>Output will be displayed here.</p>
+    </div>
+
+    <div id="terminal-sim">
+        <p>Terminal simulation will appear here.</p>
+    </div>
+
+
+</body>
 </html>
