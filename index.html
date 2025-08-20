@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <title>AssemblyScript In-Browser Compiler</title>
 
+<link rel="terminal-stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
+<link rel="stylesheet" type="text/css" href="./style.css" />
+
+<script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/web.js"></script>
 
   <script type="module">
@@ -77,9 +81,15 @@
     }
     window.runCode = runCode;
 
+// Terminal emulator setup
+
+    const term = new Terminal();
+    
+    term.open(document.getElementById("terminal-sim"));
+    term.write("Hello from terminal emulator!\r\n");
+
   </script>
 
-  <link rel="stylesheet" type="text/css" href="./style.css" />
 </head>
 
 <body>
@@ -102,7 +112,7 @@ export function main(): i32 {
   </div>
 
   <div id="terminal-sim">
-    <p>Terminal simulation will appear here.</p>
+    
   </div>
 </body>
 </html>
