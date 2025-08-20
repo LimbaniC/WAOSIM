@@ -1,36 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script type="module">
-    import { add } from "./build/release.js";
+  <meta charset="UTF-8" />
+  <title>AssemblyScript In-Browser Compiler</title>
 
-    document.getElementById("code-output").innerText = "Output: " + add(1, 2);
-    // document.body.innerText = add(1, 2);
-</script>
+<script src="https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/web.js"></script>
 
-<link rel="stylesheet" type="text/css" href="./style.css">
+  <script type="module">
 
+    import asc from "assemblyscript/asc";
+
+
+    // connecting button to runCode function
+
+       
+        const button = document.getElementById("run-code-button");
+        if (button){ 
+            button.addEventListener("click", runCode);
+            console.log("Event listener added to button.");
+        } else { 
+            console.error("No button found");
+        }
+
+
+    async function runCode() {
+      console.log("Running code...");
+
+      
+      const documentEditor = document.getElementById("editor");
+      const writtenCode = documentEditor.value;
+
+      const inputFile = { "userCode.ts": writtenCode };
+      const outputFile = {};
+
+      try {
+        const { error } = await asc.main(
+          ["userCode.ts", "--outFile", "userCode.wasm"],
+          {
+            readFile: (name) => inputFile[name] || null,
+            writeFile: (name, data) => (outputFile[name] = data),
+            listFiles: () => Object.keys(inputFile),
+          }
+        );
+
+        if (error) {
+          document.getElementById("code-output").innerText =
+            "Compile error: " + error.message;
+          return;
+        }
+
+        const wasmBinary = outputFile["userCode.wasm"];
+        if (!wasmBinary) {
+          document.getElementById("code-output").innerText =
+            "No wasm binary produced.";
+          return;
+        }
+
+        // Convert Uint8Array to ArrayBuffer if needed
+        const buffer = wasmBinary instanceof Uint8Array ? wasmBinary.buffer : wasmBinary;
+
+        const { instance } = await WebAssembly.instantiate(buffer,{});
+
+        if (instance.exports.main) {
+          const output = instance.exports.main();
+          document.getElementById("code-output").innerText =
+            "Output: " + output;
+        } else {
+          document.getElementById("code-output").innerText =
+            "Error: No 'main' export found";
+        }
+      } catch (err) {
+        document.getElementById("code-output").innerText =
+          "Error: " + err.message;
+        console.error(err);
+      }
+    }
+    window.runCode = runCode;
+
+  </script>
+
+  <link rel="stylesheet" type="text/css" href="./style.css" />
 </head>
 
 <body>
-    <div id="code-input">
-        <p>Input your code below:</p>
-        <input type="button" id="run-code-button" value="Run Code">
+  <div id="code-input">
+    <p>Input your code below:</p>
+    <input
+      type="button"
+      id="run-code-button"
+      value="Run Code"
+    />
 
-        <div id="editor" contenteditable="true" spellcheck="false">
-            <p>function add(a, b) { return a + b; }</p>
-        </div>
+    <textarea id="editor">// Example AssemblyScript
+export function main(): i32 {
+  return 42;
+}</textarea>
+  </div>
 
-    </div>
+  <div id="code-output">
+    <p>Output will be displayed here.</p>
+  </div>
 
-    <div id="code-output">
-        <p>Output will be displayed here.</p>
-    </div>
-
-    <div id="terminal-sim">
-        <p>Terminal simulation will appear here.</p>
-    </div>
-
-
+  <div id="terminal-sim">
+    <p>Terminal simulation will appear here.</p>
+  </div>
 </body>
 </html>
