@@ -104,6 +104,84 @@ body {
   color: #d4d4d4;
 }
 
+/* File manager panel */
+#file-manager {
+  padding: 15px 20px; /* more spacing around */
+  background-color: #252526;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* spacing between controls and selector */
+  border-bottom: 1px solid #444;
+}
+
+/* Controls row: filename input + save button */
+.file-controls {
+  display: flex;
+  gap: 12px; /* spacing between input and button */
+  align-items: center;
+}
+
+/* Transparent filename input */
+#filename-input {
+  flex: 1;
+  padding: 8px 12px;
+  background-color: rgba(30, 30, 30, 0.5); /* transparent dark */
+  border: 1px solid #555;
+  border-radius: 6px;
+  color: #fff;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+#filename-input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Save button */
+#save-file-btn {
+  padding: 8px 16px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+#save-file-btn:hover {
+  background-color: #34d058;
+}
+
+#save-file-btn:active {
+  background-color: #22863a;
+  transform: scale(0.97); /* subtle click feedback */
+}
+
+/* File dropdown selector */
+.file-selector {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 14px;
+  color: #ddd;
+}
+
+#file-list {
+  flex: 1;
+  padding: 8px 12px;
+  background-color: rgba(30, 30, 30, 0.5); /* transparent */
+  border: 1px solid #555;
+  border-radius: 6px;
+  color: #fff;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+
 #run-code-button {
   display: inline-block;
   padding: 6px 14px;

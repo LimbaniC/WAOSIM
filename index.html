@@ -15,25 +15,82 @@
     import asc from "assemblyscript/asc";
 
 
-    // connecting button to runCode function
-
        
-        const button = document.getElementById("run-code-button");
-        if (button){ 
-            button.addEventListener("click", runCode);
+        const runButton = document.getElementById("run-code-button");
+        if (runButton){ 
+            runButton.addEventListener("click", runCode);
             console.log("Event listener added to button.");
         } else { 
             console.error("No button found");
         }
+
+        const saveButton = document.getElementById("save-file-btn");
+        if (saveButton){ 
+            saveButton.addEventListener("click", saveFile);
+            console.log("Event listener added to save button.");
+        } else { 
+            console.error("No save button found");
+        }
+
+        document.getElementById("file-list").addEventListener("change", loadFile);
+    
+
+
+    
+    const files = {};
+
+  function saveFile() {
+    console.log("Saving file...");
+    const filename = document.getElementById("filename-input").value.trim();
+    const code = document.getElementById("editor").value;
+
+    if (!filename) {
+      alert("Please enter a filename before saving.");
+      return;
+    }
+
+    //come back and have a better solution for file memory
+    files[filename] = code;
+
+    // Add to dropdown if new
+    const fileList = document.getElementById("file-list");
+    if (![...fileList.options].some(opt => opt.value === filename)) {
+      const option = document.createElement("option");
+      option.value = filename;
+      option.textContent = filename;
+      fileList.appendChild(option);
+    }
+
+    console.log(`File "${filename}" saved!`);
+  }
+
+  function loadFile() {
+    console.log("Loading file...");
+    const fileList = document.getElementById("file-list");
+    const selectedFile = fileList.value;
+
+    if (selectedFile && files[selectedFile] !== undefined) {
+      document.getElementById("editor").value = files[selectedFile];
+    }
+  }
+
+  function newFile() {
+    document.getElementById("editor").value = "";
+    document.getElementById("filename-input").value = "";
+    document.getElementById("file-list").value = "";
+  }
+
 
 
     async function runCode() {
       console.log("Running code...");
 
       
+      //code
       const documentEditor = document.getElementById("editor");
       const writtenCode = documentEditor.value;
 
+    //take in user input as a file that can be compiled into wasm and then executed..
       const inputFile = { "userCode.ts": writtenCode };
       const outputFile = {};
 
@@ -93,13 +150,37 @@
 </head>
 
 <body>
+
   <div id="code-input">
+
+<!-- File management section -->
+<div id="file-manager">
+  <h3>File Manager</h3>
+
+
+  <div class="file-controls">
+    <input type="text" id="filename-input" placeholder="Enter file name..." />
+    <button id="new-file-btn">New File</button>
+    <button id="save-file-btn">Save File</button>
+  </div>
+
+  <div class="file-selector">
+    <label for="file-list">Open File:</label>
+    <select id="file-list">
+      <option value="">-- Select a file --</option>
+    </select>
+  </div>
+</div>
+
+
     <p>Input your code below:</p>
     <input
       type="button"
       id="run-code-button"
       value="Run Code"
     />
+
+
 
     <textarea id="editor">// Example AssemblyScript
 export function main(): i32 {
@@ -112,7 +193,7 @@ export function main(): i32 {
   </div>
 
   <div id="terminal-sim">
-    
+
   </div>
 </body>
 </html>
